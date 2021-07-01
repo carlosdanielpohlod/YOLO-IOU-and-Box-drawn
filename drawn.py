@@ -5,9 +5,9 @@ from functions import *
 
 # ....................... Especific image ..................
 
-img = readImg('C:/Users/carlos/Documents/projetos/FAPA/results/dji_0575_quadrante2.jpg')
-coordinates = readCoordinates('results/dji_0575_quadrante2.xml' )
-resultCoodinates  = readResults("C:/Users/carlos/Documents/projetos/FAPA/results/result_dji_0575_quadrante2.txt")
+img = readImg('C:/image.jpg')
+coordinates = readCoordinates('C:/image.xml' )
+resultCoodinates  = readResults("C:/result_image.txt")
 
 cv2 = drawnBoxes(img, coordinates)
 cv2 = drawnBoxes(img = img, coordinates = resultCoodinates, color = (0,255,0))
