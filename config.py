@@ -1,0 +1,5 @@
+images_path = 'C:/Users/carlos/Documents/projetos/FAPA/results'
+labels_path = 'C:/Users/carlos/Documents/projetos/FAPA/results'
+results_path = 'C:/Users/carlos/Documents/projetos/FAPA/results'
+output_path = 'output'
+img_extension = 'jpg'
