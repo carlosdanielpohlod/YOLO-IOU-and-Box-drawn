@@ -43,7 +43,30 @@ def calcIOU(labelCoordinates, resultCoodinates, img = None, cv2 = None, drawn = 
                     if(drawn):
                         cv2.putText(img,f'{str(round(I/U, 2))} ',(x1,y1),cv2.QT_FONT_NORMAL,1,255)
                     iou.append([[x1, y1, w1, h1],[x2, y2, w2, h2],I / U])
+    
+    ## daqi pra baixo tem q arrmar
+    # equalsBoxes = []
+    # unique = []
+    # iou.sort()
+    # boxes = []
+  
+    # for i in range(len(iou)):
+    #     boxes = []
+    #     boxes.append(iou[i])
+    #     for j in range(i+1, len(iou)):
+    #         if(iou[i][0] == iou[j][0] and iou[j] not in boxes):
+    #             boxes.append(iou[j])
+    #     if(len(boxes) > 1 and boxes not in equalsBoxes):
+    #         equalsBoxes.append(boxes)
+    #     if(len(boxes) == 1):
+    #         unique.append(boxes)
     iou.sort()
+
+    for i in equalsBoxes:
+        print("\n box do ",i[0][0])
+        for j in i:
+            print("\n", j)  
+
     if(cv2 != None):
         return cv2, iou
     else:
