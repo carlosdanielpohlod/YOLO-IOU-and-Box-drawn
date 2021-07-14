@@ -23,7 +23,45 @@ def drawnBoxes(img, coordinates, color = (0, 0, 255)):
         cv2.rectangle(img, coordinate[0], coordinate[1],color,3)  
     
     return cv2     
-
+def groupIOUBoxes(iou):
+    equalsBoxes = []
+    unique = []
+    iou.sort()
+    boxes = []
+    length = len(iou)
+    i = 0
+    while(i < length):
+        
+        boxes = []
+        boxes.append(iou[i])
+        j = i+1
+        while(j < length):
+            
+            if(iou[i][0] == iou[j][0] and iou[j] not in boxes):
+                boxes.append(iou[j])
+                del iou[j]
+                length = length - 1
+            else:
+                j = j + 1
+        i = i+1
+        if(len(boxes) > 1 and boxes not in equalsBoxes):
+            equalsBoxes.append(boxes)
+        if(len(boxes) == 1):
+            unique.append(boxes)
+    return unique, equalsBoxes
+def selBiggestIOUBoxs(equals):
+    arrayFinal = []
+    maior = None
+    for i in equals:
+        maior = [0]
+        # print(maior)
+        for j in i:
+            if(j[-1] > maior[-1]):
+                maior = j
+                
+        arrayFinal.append(maior)
+        
+    return arrayFinal
 def calcIOU(labelCoordinates, resultCoodinates, img = None, cv2 = None, drawn = False):
     iou = []
    
@@ -44,29 +82,19 @@ def calcIOU(labelCoordinates, resultCoodinates, img = None, cv2 = None, drawn = 
                         cv2.putText(img,f'{str(round(I/U, 2))} ',(x1,y1),cv2.QT_FONT_NORMAL,1,255)
                     iou.append([[x1, y1, w1, h1],[x2, y2, w2, h2],I / U])
     
-    ## daqi pra baixo tem q arrmar
-    # equalsBoxes = []
-    # unique = []
-    # iou.sort()
-    # boxes = []
+    
+    unique, equals = groupIOUBoxes(iou)
+    unique02 = selBiggestIOUBoxs(equals)
+    gambiarra = []
+    for i in unique:
+        gambiarra.append(i[0]) 
   
-    # for i in range(len(iou)):
-    #     boxes = []
-    #     boxes.append(iou[i])
-    #     for j in range(i+1, len(iou)):
-    #         if(iou[i][0] == iou[j][0] and iou[j] not in boxes):
-    #             boxes.append(iou[j])
-    #     if(len(boxes) > 1 and boxes not in equalsBoxes):
-    #         equalsBoxes.append(boxes)
-    #     if(len(boxes) == 1):
-    #         unique.append(boxes)
+    unique, equals = groupIOUBoxes([*gambiarra, *unique02])
+    unique02 = selBiggestIOUBoxs(equals)
+
+    iou = [*unique, *unique02]
     iou.sort()
-
-    for i in equalsBoxes:
-        print("\n box do ",i[0][0])
-        for j in i:
-            print("\n", j)  
-
+  
     if(cv2 != None):
         return cv2, iou
     else:
@@ -145,7 +173,7 @@ def drawnAllFiles(imageBoxColor, resultBoxColor, iouImageDrawn = False):
         # OR
             iou = calcIOU(labelCoordinates = coordinates, resultCoodinates = resultCoodinates)
 
-            writeFileInsights(coordinates, resultCoodinates, iou, i.split(".")[0])
+        writeFileInsights(coordinates, resultCoodinates, iou, i.split(".")[0])
         if not os.path.isdir(output_path): 
        
             os.mkdir(output_path) 
