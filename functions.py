@@ -49,6 +49,7 @@ def groupIOUBoxes(iou):
         if(len(boxes) == 1):
             unique.append(boxes)
     return unique, equalsBoxes
+    
 def selBiggestIOUBoxs(equals):
     arrayFinal = []
     maior = None
@@ -77,24 +78,27 @@ def calcIOU(labelCoordinates, resultCoodinates, img = None, cv2 = None, drawn = 
                 I = w_intersection * h_intersection
                 U = w1 * h1 + w2 * h2 - I 
                 if(I / U > 0.7):
-                    
-                    if(drawn):
-                        cv2.putText(img,f'{str(round(I/U, 2))} ',(x1,y1),cv2.QT_FONT_NORMAL,1,255)
+                   
                     iou.append([[x1, y1, w1, h1],[x2, y2, w2, h2],I / U])
     
     
     unique, equals = groupIOUBoxes(iou)
     unique02 = selBiggestIOUBoxs(equals)
-    gambiarra = []
+    formatado = []
     for i in unique:
-        gambiarra.append(i[0]) 
+        formatado.append(i[0]) 
   
-    unique, equals = groupIOUBoxes([*gambiarra, *unique02])
+    unique, equals = groupIOUBoxes([*formatado, *unique02])
     unique02 = selBiggestIOUBoxs(equals)
 
     iou = [*unique, *unique02]
     iou.sort()
-  
+    
+    if(drawn):
+        for i in iou: 
+            
+            cv2.putText(img,f'{str(round(i[0][-1], 2))} ',(i[0][0][0],i[0][0][1]),cv2.QT_FONT_NORMAL,1,255)
+    
     if(cv2 != None):
         return cv2, iou
     else:
