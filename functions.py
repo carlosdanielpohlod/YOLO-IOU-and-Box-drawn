@@ -63,6 +63,8 @@ def selBiggestIOUBoxs(equals):
         arrayFinal.append(maior)
         
     return arrayFinal
+
+#REFATORAR, É TEMPORARIO MAS FuNCIONA
 def calcIOU(labelCoordinates, resultCoodinates, img = None, cv2 = None, drawn = False):
     iou = []
    
@@ -92,11 +94,12 @@ def calcIOU(labelCoordinates, resultCoodinates, img = None, cv2 = None, drawn = 
     unique02 = selBiggestIOUBoxs(equals)
 
     iou = [*unique, *unique02]
-    iou.sort()
+    # iou.sort()
     
     if(drawn):
         for i in iou: 
-            
+            if(len(i) == 3):
+                i = [i]
             cv2.putText(img,f'{str(round(i[0][-1], 2))} ',(i[0][0][0],i[0][0][1]),cv2.QT_FONT_NORMAL,1,255)
     
     if(cv2 != None):
@@ -131,7 +134,6 @@ def resultToTouple(result):
     parse =  ' '.join([str(elem) for elem in array])
     parse = f'[{parse[1:-1]}'+'}'+']'
 
-    
     parse = json.loads(parse)
     array= []
     for i in parse:
