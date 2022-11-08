@@ -1,3 +1,5 @@
+<h2> This app was used in an published article: http://www.agraria.pro.br/ojs32/index.php/RBCA/article/view/v17i2a1353/1448
+
 <h2> config.py </h2>
 
 <p> <b> images_path = '' </b> defines your images local path </p>
