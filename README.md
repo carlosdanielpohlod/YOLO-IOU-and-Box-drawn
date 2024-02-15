@@ -1,4 +1,4 @@
-<h2> This app was used in an published article: http://www.agraria.pro.br/ojs32/index.php/RBCA/article/view/v17i2a1353/1448
+<h2> This app was used in a published article: http://www.agraria.pro.br/ojs32/index.php/RBCA/article/view/v17i2a1353/1448
 
 <h2> config.py </h2>
 
